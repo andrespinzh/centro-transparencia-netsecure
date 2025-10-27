@@ -1,0 +1,35 @@
+{
+  "last_updated": "2024-10-15 15:45:00",
+  "versions": [
+    {
+      "version": "NetMon v2.1.0",
+      "release_date": "2024-10-15",
+      "status": "✅ VERIFICADA",
+      "build_hash": "a1b2c3d4e5f678901234567890abcdef1234567890abcdef1234567890abcd",
+      "testigo_hash": "a1b2c3d4e5f678901234567890abcdef1234567890abcdef1234567890abcd",
+      "security_scan": "✅ PASÓ SAST/SCA - 0 vulnerabilidades",
+      "firmas_requeridas": "2/2",
+      "security_report": "Build validado por servidor testigo. Integridad confirmada."
+    },
+    {
+      "version": "NetMon v2.0.9",
+      "release_date": "2024-10-14", 
+      "status": "🔄 EN VALIDACIÓN",
+      "build_hash": "x9y8z7a6b5c4d3e2f1a0b9c8d7e6f5d4x9y8z7a6b5c4d3e2f1a0b9c8d7e6f5d4",
+      "testigo_hash": "x9y8z7a6b5c4d3e2f1a0b9c8d7e6f5d4x9y8z7a6b5c4d3e2f1a0b9c8d7e6f5d4",
+      "security_scan": "⏳ EJECUTANDO ESCANEOS",
+      "firmas_requeridas": "1/2",
+      "security_report": "Esperando segunda firma de desarrollador."
+    },
+    {
+      "version": "NetMon v2.0.8",
+      "release_date": "2024-10-10",
+      "status": "❌ COMPROMETIDA - NO INSTALAR",
+      "build_hash": "h1a2c3k4e5d6f7a8k9e0h1a2c3k4e5d6f7a8k9e0h1a2c3k4e5d6f7a8k9e0h1a2",
+      "testigo_hash": "l1e2g3i4t5i6m7a8t9e0l1e2g3i4t5i6m7a8t9e0l1e2g3i4t5i6m7a8t9e0l1e2",
+      "security_scan": "❌ FALLÓ VALIDACIÓN - HASHES DIFERENTES",
+      "firmas_requeridas": "2/2",
+      "security_report": "ALERTA: Build de producción difiere del build testigo. Posible compromiso."
+    }
+  ]
+}
