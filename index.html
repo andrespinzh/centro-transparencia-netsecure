@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Centro de Transparencia - NetSecure Solutions</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .version { padding: 20px; margin: 10px 0; border-radius: 8px; }
+        .verified { background: #d4edda; border-left: 5px solid #28a745; }
+        .pending { background: #fff3cd; border-left: 5px solid #ffc107; }
+        .failed { background: #f8d7da; border-left: 5px solid #dc3545; }
+        .hash { font-family: monospace; background: #f8f9fa; padding: 5px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🔍 Centro de Transparencia NetSecure</h1>
+        <p>Verifique la integridad y seguridad de sus actualizaciones de NetMon</p>
+    </header>
+
+    <section id="status-summary">
+        <h2>📊 Resumen del Sistema</h2>
+        <div id="summary-stats">Cargando...</div>
+    </section>
+
+    <section id="versions">
+        <h2>📦 Versiones de NetMon</h2>
+        <div id="versions-list">Cargando versiones...</div>
+    </section>
+
+    <footer>
+        <p>Última actualización: <span id="last-update"></span></p>
+        <p><strong>NetSecure Solutions - Seguridad Verificable</strong></p>
+    </footer>
+
+    <script>
+        // Cargar datos del centro de transparencia
+        async function loadTransparencyData() {
+            try {
+                const response = await fetch('./data/versions.json');
+                const data = await response.json();
+                
+                displaySummary(data);
+                displayVersions(data);
+                document.getElementById('last-update').textContent = data.last_updated;
+                
+            } catch (error) {
+                document.getElementById('versions-list').innerHTML = 
+                    '<p>❌ Error cargando datos de transparencia</p>';
+            }
+        }
+
+        function displaySummary(data) {
+            const total = data.versions.length;
+            const verified = data.versions.filter(v => v.status.includes('✅')).length;
+            const pending = data.versions.filter(v => v.status.includes('🔄')).length;
+            const failed = data.versions.filter(v => v.status.includes('❌')).length;
+            
+            document.getElementById('summary-stats').innerHTML = `
+                <div style="display: flex; gap: 20px;">
+                    <div>Total: <strong>${total}</strong></div>
+                    <div>✅ Verificadas: <strong>${verified}</strong></div>
+                    <div>🔄 Pendientes: <strong>${pending}</strong></div>
+                    <div>❌ Fallidas: <strong>${failed}</strong></div>
+                </div>
+            `;
+        }
+
+        function displayVersions(data) {
+            const container = document.getElementById('versions-list');
+            container.innerHTML = '';
+            
+            data.versions.forEach(version => {
+                const statusClass = version.status.includes('✅') ? 'verified' : 
+                                  version.status.includes('🔄') ? 'pending' : 'failed';
+                
+                const div = document.createElement('div');
+                div.className = `version ${statusClass}`;
+                div.innerHTML = `
+                    <h3>${version.version} - ${version.status}</h3>
+                    <p><strong>🔹 Fecha Lanzamiento:</strong> ${version.release_date}</p>
+                    <p><strong>🔹 Hash Build Producción:</strong> <span class="hash">${version.build_hash}</span></p>
+                    <p><strong>🔹 Hash Build Testigo:</strong> <span class="hash">${version.testigo_hash}</span></p>
+                    <p><strong>🔹 Escaneo Seguridad:</strong> ${version.security_scan}</p>
+                    <p><strong>🔹 Firmas Requeridas:</strong> ${version.firmas_requeridas}</p>
+                    ${version.security_report ? `<p><strong>📋 Reporte:</strong> ${version.security_report}</p>` : ''}
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Cargar datos al iniciar y cada 2 minutos
+        loadTransparencyData();
+        setInterval(loadTransparencyData, 120000);
+    </script>
+</body>
+</html>
